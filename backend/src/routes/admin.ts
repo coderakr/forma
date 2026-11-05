@@ -1,0 +1,16 @@
+import { Router } from 'express';
+import { requireAuth, requireAdmin } from '../middleware/auth.js';
+import * as admin from '../controllers/admin.js';
+export const adminRoutes = Router();
+adminRoutes.use(requireAuth, requireAdmin);
+adminRoutes.get('/stats', admin.stats);
+adminRoutes.get('/products', admin.adminProducts);
+adminRoutes.post('/products', admin.saveProduct);
+adminRoutes.put('/products/:id', admin.saveProduct);
+adminRoutes.delete('/products/:id', admin.archiveProduct);
+adminRoutes.post('/categories', admin.saveCategory);
+adminRoutes.put('/categories/:id', admin.saveCategory);
+adminRoutes.delete('/categories/:id', admin.deleteCategory);
+adminRoutes.get('/orders', admin.adminOrders);
+adminRoutes.get('/orders/:id', admin.adminOrderDetail);
+adminRoutes.patch('/orders/:id', admin.updateOrder);

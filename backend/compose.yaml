@@ -1,0 +1,16 @@
+# Local development only. Use a secured Atlas/replica-set connection in production.
+services:
+  mongo:
+    image: mongo:8.2.11
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "127.0.0.1:${MONGO_PORT:?Set MONGO_PORT in .env}:27017"
+    volumes:
+      - forma-mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand({ping:1}).ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+volumes:
+  forma-mongo:
